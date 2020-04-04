@@ -1,20 +1,75 @@
-.field{
-    display:grid;
-    width: 300px;
-    height: 300px;
-    position: relative;
-    margin: auto;
-}
-.cell{
-    padding: 2px;
-}
-.inCell{
-    background: #000;
-    border-radius: 10px;
-    width: 100%;
-    height: 100%;
+.field {
+  display: grid;
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: auto;
 }
 
-.a{
-    transition: 0.5s ease-out all;
+.cell {
+  padding: 2px;
+}
+
+.inCell {
+  border: solid 1px black;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.void * {
+  background: transparent;
+}
+
+.a {
+  transition: 0.5s ease-out all;
+}
+
+#c1-1, #c2-1, #c3-1, #c4-1, #c5-1, #c6-1, #c7-1, #c8-1 {
+  grid-row: 1/2;
+}
+#c1-2, #c2-2, #c3-2, #c4-2, #c5-2, #c6-2, #c7-2, #c8-2 {
+  grid-row: 2/3;
+}
+#c1-3, #c2-3, #c3-3, #c4-3, #c5-3, #c6-3, #c7-3, #c8-3 {
+  grid-row: 3/4;
+}
+#c1-4, #c2-4, #c3-4, #c4-4, #c5-4, #c6-4, #c7-4, #c8-4 {
+  grid-row: 4/5;
+}
+#c1-5, #c2-5, #c3-5, #c4-5, #c5-5, #c6-5, #c7-5, #c8-5 {
+  grid-row: 5/6;
+}
+#c1-6, #c2-6, #c3-6, #c4-6, #c5-6, #c6-6, #c7-6, #c8-6 {
+  grid-row: 6/7;
+}
+#c1-7, #c2-7, #c3-7, #c4-7, #c5-7, #c6-7, #c7-7, #c8-7 {
+  grid-row: 7/8;
+}
+#c1-8, #c2-8, #c3-8, #c4-8, #c5-8, #c6-8, #c7-8, #c8-8 {
+  grid-row: 8/9;
+}
+#c1-1, #c1-2, #c1-3, #c1-4, #c1-5, #c1-6, #c1-7, #c1-8 {
+  grid-column: 1/2;
+}
+#c2-1, #c2-2, #c2-3, #c2-4, #c2-5, #c2-6, #c2-7, #c2-8 {
+  grid-column: 2/3;
+}
+#c3-1, #c3-2, #c3-3, #c3-4, #c3-5, #c3-6, #c3-7, #c3-8 {
+  grid-column: 3/4;
+}
+#c4-1, #c4-2, #c4-3, #c4-4, #c4-5, #c4-6, #c4-7, #c4-8 {
+  grid-column: 4/5;
+}
+#c5-1, #c5-2, #c5-3, #c5-4, #c5-5, #c5-6, #c5-7, #c5-8 {
+  grid-column: 5/6;
+}
+#c6-1, #c6-2, #c6-3, #c6-4, #c6-5, #c6-6, #c6-7, #c6-8 {
+  grid-column: 6/7;
+}
+#c7-1, #c7-2, #c7-3, #c7-4, #c7-5, #c7-6, #c7-7, #c7-8 {
+  grid-column: 7/8;
+}
+#c8-1, #c8-2, #c8-3, #c8-4, #c8-5, #c8-6, #c8-7, #c8-8 {
+  grid-column: 8/9;
 }
