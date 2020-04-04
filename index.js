@@ -2,14 +2,14 @@ const n=3;
 function gridTamplate(n){
     let str="";
     for (let i = 0; i < n; i++) {
-        str+="1fr, "
+        str+="1fr "
     }
-    return str.substring(0,str.length-2)+"; ";
+    return str+"; ";
 } 
 console.log(gridTamplate(n))
-var block = document.createElement('div');
-block.setAttribute("class","block");
-block.setAttribute("style",
+var field = document.createElement('div');
+field.setAttribute("class","field");
+field.setAttribute("style",
     "grid-template-columns: "+gridTamplate(n)+
     "grid-template-rows: "+gridTamplate(n)
 );
@@ -17,16 +17,18 @@ block.setAttribute("style",
 for (let i = 1; i < n+1; i++) {
     for (let k = 1; k < n+1; k++) {
         const cell = document.createElement('div');
+        const inCell = document.createElement('div');
         cell.setAttribute('class','cell');
         cell.setAttribute('id','c'+i+'-'+k);
-        block.append(cell);
-        console.log('here');
+        inCell.setAttribute('class','inCell');
+        field.append(cell);
+        cell.append(inCell);
     }
 }
-document.body.append(block);
+document.body.append(field);
 //=====================Анимация
-// const block = document.getElementsByClassName('block')[0];
-// block.addEventListener('mousedown',(e)=>{
+// const field = document.getElementsByClassName('field')[0];
+// field.addEventListener('mousedown',(e)=>{
 //     e.target.classList.add('a');
 //     e.target.style = " transform: translateX(100%)"
 //     setTimeout(()=>{
