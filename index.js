@@ -1,6 +1,6 @@
 
 window.onload=()=>{
-    const gemField = new Field(4);
+    const gemField = new Field(8);
     gemField.create();
     moveCells();
 }
@@ -11,7 +11,7 @@ function moveCells(){
     if(cell){
         if(res){
             res=false;
-            setTimeout(()=>{res=true},200)
+            setTimeout(()=>{res=true},100)
             const targetCell = new Cell(cell);
             targetCell.tryToMove();
         }//else{targetCell.err()}
@@ -42,6 +42,7 @@ class Field{
         }
         return arr;
     }
+
     fillUp(field,arrOfNumb){
         for (let i = 1; i <= this.n; i++) {
             for (let k = 1; k <= this.n; k++) {
@@ -54,6 +55,7 @@ class Field{
                 if(k==this.n&&i==this.n){
                     cell.classList.add('void');
                 }else{
+                    console.log(((i-1)*this.n+k)-1)
                     inCell.innerText=arrOfNumb[((i-1)*3+k)-1];
                 }
                 field.append(cell);
@@ -71,6 +73,7 @@ class Field{
             "grid-template-rows: "+this.gridTamplate(this.n)
         );
         this.fillUp(field,this.randomNumbers())
+        console.log(this.randomNumbers().sort())
         document.body.append(field);
     }
 
@@ -111,7 +114,7 @@ class Cell{
             id=this.cell.id;
             this.cell.id=this.voidCell.id;
             this.voidCell.id=id;
-        },200)
+        },100)
     }
 }
 
