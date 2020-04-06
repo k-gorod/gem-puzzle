@@ -1,20 +1,23 @@
 
 window.onload=()=>{
-    const gemField = new Field(8);
+    const gemField = new Field(4);
     gemField.create();
     moveCells();
 }
 function moveCells(){
     let res = true;
     document.getElementsByClassName('field')[0].addEventListener('mousedown',(e)=>{
-    var cell=e.target.classList.contains('inCell')?e.target.parentElement:false;
+    var cell=e.target.classList.contains('inCell')||
+    e.target.classList.contains('error')?
+    e.target.parentElement:
+    false;
     if(cell){
         if(res){
             res=false;
             setTimeout(()=>{res=true},100)
             const targetCell = new Cell(cell);
             targetCell.tryToMove();
-        }//else{targetCell.err()}
+        }
     }
 })
 }
@@ -46,7 +49,6 @@ class Field{
     fillUp(field,arrOfNumb){
         for (let i = 1; i <= this.n; i++) {
             for (let k = 1; k <= this.n; k++) {
-                
                 const cell = document.createElement('div');
                 const inCell = document.createElement('div');
                 cell.setAttribute('class','cell');
@@ -55,7 +57,6 @@ class Field{
                 if(k==this.n&&i==this.n){
                     cell.classList.add('void');
                 }else{
-                    console.log(((i-1)*this.n+k)-1)
                     inCell.innerText=arrOfNumb[((i-1)*3+k)-1];
                 }
                 field.append(cell);
@@ -73,7 +74,6 @@ class Field{
             "grid-template-rows: "+this.gridTamplate(this.n)
         );
         this.fillUp(field,this.randomNumbers())
-        console.log(this.randomNumbers().sort())
         document.body.append(field);
     }
 
@@ -98,10 +98,23 @@ class Cell{
     tryToMove(){
         if(Math.abs(this.inColumn())==1){
             this.replace(this.inColumn(),"Y");
-        }
+        }else
         if(Math.abs(this.inRow())==1){
             this.replace(this.inRow(),"X");
+        }else 
+        if(!this.cell.classList.contains('void')){
+            this.wrongCell();
         }
+
+    }
+    wrongCell(){
+        const err  = document.createElement('div');
+        err.setAttribute('class','error a2');
+        setTimeout(()=>{err.style.opacity = 1},20)
+        setTimeout(()=>{err.style.opacity = 0},500)
+        
+        this.cell.append(err);
+        setTimeout(()=>{err.remove()},900)
     }
     replace(diff,direction){
         let id;
@@ -117,4 +130,3 @@ class Cell{
         },100)
     }
 }
-
