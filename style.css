@@ -1,3 +1,8 @@
+* {
+  -webkit-user-select: none;
+          user-select: none;
+}
+
 .field {
   display: grid;
   width: 300px;
@@ -18,11 +23,12 @@
 }
 
 .void * {
+  border: none;
   background: transparent;
 }
 
 .a {
-  transition: 0.5s ease-out all;
+  transition: 0.2s ease-out all;
 }
 
 #c1-1, #c2-1, #c3-1, #c4-1, #c5-1, #c6-1, #c7-1, #c8-1 {
