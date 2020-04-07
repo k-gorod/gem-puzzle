@@ -12,25 +12,27 @@ let timer = false;
 let save = false;
 let moveCounter = 0;
 let timeCounter = 0;
+
 function startGame(n){
     const gemField = new Field(n);
     gemField.create();
     moveCells(gemField);
     moveCounter = 0;
     timeCounter = 0;
+    progressBlockToDef()
     timer = false;
+    document.getElementsByClassName('info__time-count')[0].innerText = timeCounter;
+    
 }
 function timerBoard(){
-    
     setInterval(()=>{
         if(timer){
             timeCounter++;
             document.getElementsByClassName('info__time-count')[0].innerText = timeCounter
         }
     },1000);
-    
 }
-function progressBlockToDef(){
+function progressBlockToDef(){ 
     save=false;
     document.getElementsByClassName('info__save')[0].style = "transform:none"
     document.getElementsByClassName('info__save')[0].innerText="PUSH"
@@ -43,31 +45,30 @@ function moveCells(gem){
         if(value==8){
             document.getElementById('game').style = "font-size:30px"
         }
+        
         startGame(value)
     })
-    document.getElementsByClassName('info')[0].addEventListener('mousedown',(e)=>{
-        
+    document.getElementsByClassName('info')[0].addEventListener('mousedown',mouseDownInfo)
+    function mouseDownInfo(e){
         if(e.target.classList.contains('info__stop')){
             timer = false;
         }
         if(e.target.classList.contains('info__save')){
             if(!save){
-                save=true;
+                console.log(save)
                 e.target.innerText="SAVE"
                 e.target.style = "transform:translateX(-105%)"
                 document.getElementsByClassName('info__percentage')[0].style = "transform:translateX(105%)"
-            }else
-            if(save){
-                alert('Saved');
+            }else{
+                alert("Doesn't woring yet");
                 localStorage.setItem('checkpoint',document.getElementsByClassName('info__type')[0].value+"$"+
                 timeCounter+"$"+
                 moveCounter+"$"+
                 gem.currentValues().join())
-                console.log(localStorage.getItem('checkpoint'))
+                save=false;
             }
         }
-    })
-    
+    }
     document.getElementsByClassName('info')[0].addEventListener('mouseleave',()=>{
         progressBlockToDef()
     })
@@ -140,14 +141,18 @@ class Field{
     create(){
         if(document.getElementsByClassName('field')[0]){
             document.getElementsByClassName('field')[0].remove();
+            
         }
         const field = document.createElement('div');
+        
         field.setAttribute("class","field");
+        
         field.setAttribute("style",
             "grid-template-columns: "+this.gridTamplate(this.n)+
             "grid-template-rows: "+this.gridTamplate(this.n)
         );
         this.fillUp(field,this.randomNumbers())
+        
         document.getElementById('game').append(field);
         
     }
