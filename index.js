@@ -1,12 +1,78 @@
 
 window.onload=()=>{
-    const gemField = new Field(4);
-    gemField.create();
-    moveCells();
+    startGame(document.getElementsByClassName('info__type')[0].value)
+    sizeCorrection();
+    timerBoard();
 }
-function moveCells(){
+window.onresize = ()=>{
+    sizeCorrection();
+
+}
+let timer = false;
+let save = false;
+let moveCounter = 0;
+let timeCounter = 0;
+function startGame(n){
+    const gemField = new Field(n);
+    gemField.create();
+    moveCells(gemField);
+    moveCounter = 0;
+    timeCounter = 0;
+    timer = false;
+}
+function timerBoard(){
+    
+    setInterval(()=>{
+        if(timer){
+            timeCounter++;
+            document.getElementsByClassName('info__time-count')[0].innerText = timeCounter
+        }
+    },1000);
+    
+}
+function progressBlockToDef(){
+    save=false;
+    document.getElementsByClassName('info__save')[0].style = "transform:none"
+    document.getElementsByClassName('info__save')[0].innerText="PUSH"
+    document.getElementsByClassName('info__percentage')[0].style = "transform:none"
+}
+function moveCells(gem){
     let res = true;
+    document.getElementsByClassName('info__type')[0].addEventListener('change',(e)=>{
+        const value = document.getElementsByClassName('info__type')[0].value;
+        if(value==8){
+            document.getElementById('game').style = "font-size:30px"
+        }
+        startGame(value)
+    })
+    document.getElementsByClassName('info')[0].addEventListener('mousedown',(e)=>{
+        
+        if(e.target.classList.contains('info__stop')){
+            timer = false;
+        }
+        if(e.target.classList.contains('info__save')){
+            if(!save){
+                save=true;
+                e.target.innerText="SAVE"
+                e.target.style = "transform:translateX(-105%)"
+                document.getElementsByClassName('info__percentage')[0].style = "transform:translateX(105%)"
+            }else
+            if(save){
+                alert('Saved');
+                localStorage.setItem('checkpoint',document.getElementsByClassName('info__type')[0].value+"$"+
+                timeCounter+"$"+
+                moveCounter+"$"+
+                gem.currentValues().join())
+                console.log(localStorage.getItem('checkpoint'))
+            }
+        }
+    })
+    
+    document.getElementsByClassName('info')[0].addEventListener('mouseleave',()=>{
+        progressBlockToDef()
+    })
     document.getElementsByClassName('field')[0].addEventListener('mousedown',(e)=>{
+    e.preventDefault();
     var cell=e.target.classList.contains('inCell')||
     e.target.classList.contains('error')?
     e.target.parentElement:
@@ -14,12 +80,18 @@ function moveCells(){
     if(cell){
         if(res){
             res=false;
-            setTimeout(()=>{res=true},100)
+            timer=true;
+            setTimeout(()=>{res=true;},100)
+            setTimeout(()=>{document.getElementsByClassName('info__percentage')[0].innerText = gem.percentageComplete();},200);
             const targetCell = new Cell(cell);
             targetCell.tryToMove();
+            
         }
     }
 })
+}
+function sizeCorrection(){
+    document.getElementsByClassName('info')[0].setAttribute("style","width:"+document.getElementsByClassName('field')[0].offsetWidth+"px")
 }
 class Field{
     constructor(n){
@@ -45,28 +117,30 @@ class Field{
         }
         return arr;
     }
-
     fillUp(field,arrOfNumb){
-        for (let i = 1; i <= this.n; i++) {
-            for (let k = 1; k <= this.n; k++) {
+        
+        for (let col = 1; col <= this.n; col++) {
+             for (let row = 1; row <= this.n; row++) {
                 const cell = document.createElement('div');
                 const inCell = document.createElement('div');
                 cell.setAttribute('class','cell');
-                cell.setAttribute('id','c'+i+'-'+k);
+                cell.setAttribute('id','c'+row+'-'+col);
                 inCell.setAttribute('class','inCell');
-                if(k==this.n&&i==this.n){
+                if(row==this.n&&col==this.n){
                     cell.classList.add('void');
                 }else{
-                    inCell.innerText=arrOfNumb[((i-1)*3+k)-1];
+                    inCell.innerText=arrOfNumb[((col-1)*this.n+row)-1];
                 }
-                field.append(cell);
-                cell.append(inCell);
+                    cell.append(inCell);
+                    field.append(cell);
+                
             }
         }
-        
-        
     }
     create(){
+        if(document.getElementsByClassName('field')[0]){
+            document.getElementsByClassName('field')[0].remove();
+        }
         const field = document.createElement('div');
         field.setAttribute("class","field");
         field.setAttribute("style",
@@ -74,10 +148,31 @@ class Field{
             "grid-template-rows: "+this.gridTamplate(this.n)
         );
         this.fillUp(field,this.randomNumbers())
-        document.body.append(field);
+        document.getElementById('game').append(field);
+        
     }
-
+    currentValues(){
+        let values = [];
+        for (let row = 1; row <= this.n ; row++) {
+            for (let col = 1; col <= this.n ; col++) {
+                values.push(document.getElementById('c'+col+"-"+row).innerText)
+            }
+        }
+        
+        return values;
+    }
+    percentageComplete(){
+        const values = this.currentValues();
+        let percent = 0;
+        const step = 100/(Math.pow(this.n,2)-1);
+        for (let i = 0; i < values.length; i++) {
+            if(values[i]!=i+1){break}
+            else{percent+=step;}
+        }
+        return percent.toString().substring(0,4)+"%"
+    }
 }
+
 class Cell{
     constructor(cell){
         this.cell = cell;
@@ -117,6 +212,7 @@ class Cell{
         setTimeout(()=>{err.remove()},900)
     }
     replace(diff,direction){
+        this.newMove();
         let id;
         let move=diff==1?(100):-100;
         this.cell.classList.add('a');
@@ -128,5 +224,9 @@ class Cell{
             this.cell.id=this.voidCell.id;
             this.voidCell.id=id;
         },100)
+    }
+    newMove(){
+        moveCounter++;
+        document.getElementsByClassName('info__move')[0].innerText = moveCounter;
     }
 }

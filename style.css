@@ -1,14 +1,98 @@
+body {
+  font-size: 20px;
+  font-family: cursive;
+  margin: 0;
+  width: 100%;
+}
+
 * {
   -webkit-user-select: none;
           user-select: none;
 }
 
+#game {
+  background: #9d9df1;
+  border-radius: 5px;
+  position: relative;
+  padding: 10px;
+  width: 90%;
+  margin: auto;
+  max-width: 500px;
+  min-width: 350px;
+  font-size: 40px;
+  color: #bebefa;
+  text-shadow: 0 0 3px #2a2af3;
+}
+
+#overField {
+  width: 100%;
+  margin-top: 100%;
+}
+
 .field {
   display: grid;
-  width: 300px;
-  height: 300px;
+  position: absolute;
+  top: 0%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 10px;
+}
+
+.onTop {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.info {
+  display: grid;
+  margin: 10px auto;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 5px;
+}
+.info * {
   position: relative;
-  margin: auto;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  background: #9d9df1;
+  border-radius: 10px;
+  width: 100%;
+}
+.info__progress {
+  z-index: 3;
+}
+.info__progress:hover .info__save {
+  opacity: 1;
+}
+.info__progress:hover .info__percentage {
+  opacity: 1;
+}
+.info__percentage {
+  z-index: 2;
+}
+.info__save {
+  z-index: 2;
+  background: #3e82ff;
+}
+.info__stop {
+  justify-self: center;
+  z-index: 2;
+  background: red;
+}
+.info__stop:hover {
+  opacity: 1;
+}
+.info__load {
+  background: #3e82ff;
+}
+.info__type {
+  outline: none;
+  font-size: 20px;
+  padding: 10px;
 }
 
 .cell {
@@ -17,10 +101,15 @@
 }
 
 .inCell {
-  border: solid 1px black;
-  border-radius: 10px;
+  display: grid;
+  border: solid 1px white;
+  border-radius: 15%;
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.602);
+  line-height: 100%;
 }
 
 .void * {
@@ -28,11 +117,11 @@
   background: transparent;
 }
 
-.a {
+.a, .a * {
   transition: 0.1s ease-out all;
 }
 
-.a2 {
+.a2, .a2 * {
   transition: 0.4s linear all;
 }
 
@@ -42,8 +131,10 @@
   left: 1px;
   width: 100%;
   height: 100%;
-  background: red;
+  background: rgba(255, 255, 255, 0.602);
   opacity: 0;
+  border-radius: 30%;
+  box-shadow: 0 0 10px white;
 }
 
 #c1-1, #c2-1, #c3-1, #c4-1, #c5-1, #c6-1, #c7-1, #c8-1 {
