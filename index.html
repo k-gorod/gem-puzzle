@@ -7,6 +7,31 @@
     <title>Game</title>
 </head>
 <body>
+    <div class="info">
+        <select class="info__type a">
+            
+            <option value="3" class="info__type-3">3x3</option>
+            <option value="4" class="info__type-4" selected>4x4</option>
+            <option value="5" class="info__type-5">5x5</option>
+            <option value="6" class="info__type-6">6x6</option>
+            <option value="7" class="info__type-7">7x7</option>
+            <option value="8" class="info__type-8">8x8</option>
+        </select>
+        <div class="info__time a2">
+            <div class="info__time-count">0</div>
+            <div class="info__stop onTop">STOP</div>
+        </div>
+        <div class="info__progress a">
+            <div class="info__move">0</div>
+            <div class="info__percentage onTop">...</div>
+            <div class="info__save onTop">PUSH</div>
+        </div>
+        <div class="info__load">LOAD</div>
+    </div>
+    <div id="game">
+        <div id="overField">
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>
